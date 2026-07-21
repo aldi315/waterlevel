@@ -1,9 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/dashboard/stats/route": "app/api/dashboard/stats/route.js",
-  "/api/dashboard/sensors/route": "app/api/dashboard/sensors/route.js",
-  "/waterlevel/page": "app/waterlevel/page.js",
-  "/api/waterlevel/route": "app/api/waterlevel/route.js",
-  "/settings/page": "app/settings/page.js"
-}
