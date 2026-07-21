@@ -151,7 +151,7 @@ export default function WaterlevelClient() {
 
         {filteredData.length === 0 && (
           <div className="text-center py-10 text-dark-5 dark:text-dark-6">
-            No sensor data found matching "{searchQuery}"
+            No sensor data found matching &quot;{searchQuery}&quot;
           </div>
         )}
       </div>
