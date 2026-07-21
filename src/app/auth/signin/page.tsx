@@ -15,6 +15,8 @@ const SignIn: React.FC = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setEmail("admin@example.com")
+    setPassword("admin123")
     setMounted(true);
   }, []);
 
@@ -41,7 +43,7 @@ const SignIn: React.FC = () => {
             <img src={appLogo as string} alt="App Logo" className="max-h-14 w-auto object-contain mb-3" />
           ) : (
             <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary mb-3">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
             </svg>
           )}
           <h1 className="text-2xl font-bold text-black dark:text-white text-center">
