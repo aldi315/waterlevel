@@ -7,20 +7,37 @@ export default function SettingsPage() {
   const [appLogo, setAppLogo] = useState("");
 
   useEffect(() => {
-    // Read current settings
-    const storedName = window.localStorage.getItem("appName");
-    const storedLogo = window.localStorage.getItem("appLogo");
-    if (storedName) setAppName(JSON.parse(storedName));
-    if (storedLogo) setAppLogo(JSON.parse(storedLogo));
+    // Read current settings from API
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.appName) setAppName(data.appName);
+        if (data.appLogo) setAppLogo(data.appLogo);
+      })
+      .catch((err) => console.error("Error loading settings:", err));
   }, []);
 
-  const handleSave = () => {
-    window.localStorage.setItem("appName", JSON.stringify(appName));
-    if (appLogo) {
-      window.localStorage.setItem("appLogo", JSON.stringify(appLogo));
+  const handleSave = async () => {
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          appName,
+          appLogo,
+        }),
+      });
+
+      if (res.ok) {
+        alert("Settings saved! Page will reload to apply changes.");
+        window.location.reload();
+      } else {
+        alert("Failed to save settings.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while saving settings.");
     }
-    alert("Settings saved! Page will reload to apply changes.");
-    window.location.reload();
   };
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

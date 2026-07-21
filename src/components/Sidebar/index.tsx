@@ -121,7 +121,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
 
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
-  const [appLogo] = useLocalStorage("appLogo", "");
+  const [appLogo, setAppLogo] = React.useState("");
+
+  React.useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.appLogo) setAppLogo(data.appLogo);
+      })
+      .catch((err) => console.error("Error loading settings:", err));
+  }, []);
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>

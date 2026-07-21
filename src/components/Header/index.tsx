@@ -1,17 +1,28 @@
+import React from "react";
 import Link from "next/link";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import SearchForm from "@/components/Header/SearchForm";
-import useLocalStorage from "@/hooks/useLocalStorage";
+
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
-  const [appName] = useLocalStorage("appName", "Waterlevel Dashboard");
-  const [appLogo] = useLocalStorage("appLogo", "");
+  const [appName, setAppName] = React.useState("Waterlevel Dashboard");
+  const [appLogo, setAppLogo] = React.useState("");
+
+  React.useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.appName) setAppName(data.appName);
+        if (data.appLogo) setAppLogo(data.appLogo);
+      })
+      .catch((err) => console.error("Error loading settings:", err));
+  }, []);
 
   return (
     <header className="sticky top-0 z-999 flex w-full border-b border-stroke bg-white dark:border-stroke-dark dark:bg-gray-dark">

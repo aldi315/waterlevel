@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import useLocalStorage from "@/hooks/useLocalStorage";
+
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -10,14 +10,22 @@ const SignIn: React.FC = () => {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const [appName] = useLocalStorage("appName", "Water Level Dashboard");
-  const [appLogo] = useLocalStorage("appLogo", "");
+  const [appName, setAppName] = useState("Water Level Dashboard");
+  const [appLogo, setAppLogo] = useState("");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setEmail("admin@example.com")
-    setPassword("admin123")
+    setEmail("admin@example.com");
+    setPassword("admin123");
     setMounted(true);
+
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.appName) setAppName(data.appName);
+        if (data.appLogo) setAppLogo(data.appLogo);
+      })
+      .catch((err) => console.error("Error loading settings:", err));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
